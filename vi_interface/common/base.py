@@ -2,12 +2,22 @@ import os
 import requests
 import logging
 import time
+from datetime import datetime
 # 根据键查找值
 from common.config_path import file_data_dir
 
-
+def  execute_time(func):
+    def clocked(*args, **kwargs):
+        start = datetime.now()
+        response = func(*args, **kwargs)
+        end = datetime.now()
+#         print(func.__name__, response['msg'], end - start)
+        print(func.__name__, end - start-0.1)
+        return  response
+    return clocked
 
 # 发送请求
+@execute_time
 def http_request(method, url, params, raw, file, headers):
     resp = None
     if method.upper() == 'GET':
